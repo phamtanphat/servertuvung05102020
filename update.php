@@ -13,26 +13,30 @@
         echo json_encode(new Response(false , "Dữ liệu ghi nhớ rỗng" ,[]));
         return;
     } 
-    $query = "UPDATE tuvung SET ismemorized = '$ismemorized' WHERE id = '$id'";
 
-    $data = mysqli_query($con , $query);
-    $array = [];
-  
-    if($data){
-        $queryRow = "SELECT * FROM tuvung WHERE id = '$id'";
-        $dataFilter = mysqli_query($con , $queryRow);
+    $queryRow = "SELECT * FROM tuvung WHERE id = '$id'";
+    
+    $dataFilter = mysqli_query($con , $queryRow);
 
-        $rowcount = mysqli_num_rows($dataFilter);
+    $rowcount = mysqli_num_rows($dataFilter);
 
-        if($rowcount > 0 ){
+    if($rowcount > 0 ){
+        $query = "UPDATE tuvung SET ismemorized = '$ismemorized' WHERE id = '$id'";
+        $data = mysqli_query($con , $query);
+        $array = [];
+        if($data){
             while($row = mysqli_fetch_assoc($dataFilter)){
                 array_push($array , new WordModel($row['id'],$row['en'],$row['vn'],$row['ismemorized']));
             }
             echo json_encode(new Response(true , null ,$array ));
+       
         }else{
-            echo json_encode(new Response(false , "Giá trị không tồn tại" ,[]));
+            echo json_encode(new Response(false , "Thêm thất bại" ,[]));
         }
+       
     }else{
-        echo json_encode(new Response(false , "Thêm thất bại" ,[]));
+        echo json_encode(new Response(false , "Giá trị không tồn tại" ,[]));
     }
+    
+    
 ?>
