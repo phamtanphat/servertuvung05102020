@@ -28,7 +28,8 @@
     $array = [];
 
     while($row = mysqli_fetch_assoc($data)){
-       array_push($array , new WordModel($row['id'],$row['en'],$row['vn'],$row['ismemorized']));
+        $row['ismemorized'] = strcmp($row['ismemorized'] , '1') == 0 ? true : false ;
+        array_push($array , new WordModel($row['id'],$row['en'],$row['vn'],$row['ismemorized']));
     }
 
     echo json_encode(new ResponsePagination($pages,$currentpage,true,null,$array));

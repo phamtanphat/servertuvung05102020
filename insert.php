@@ -17,8 +17,12 @@
         echo json_encode(new Response(false , "Dữ liệu ghi nhớ rỗng" ,[]));
         return;
     } 
+    $ismemorized = strcmp($ismemorized , 'true') == 0 ? true : false ;
+
     $query = "INSERT INTO tuvung VALUES (null ,'$en','$vn','$ismemorized')";
 
+    $ismemorized = boolval($ismemorized);
+    
     $data = mysqli_query($con , $query);
     $array = [];
   
